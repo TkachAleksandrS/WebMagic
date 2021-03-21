@@ -86,10 +86,11 @@ class Parser extends Command
     public function handle(): void
     {
         DB::transaction(function() {
-            $articles = $this->getArticles();
 
             if ($this->argument('type') === 'refresh')
                 $this->clearDB();
+
+            $articles = $this->getArticles();
 
             $this->parseLog->info('Parsing started [' . $this->argument('type') . ']');
 
