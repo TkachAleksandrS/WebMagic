@@ -3,5 +3,6 @@
 /storage/logs/*
 /vendor
 /.idea/*
+!/docker/.env
 .env
 .composer.lock
