@@ -37,7 +37,7 @@ PARSE_MONTHS=4
 ```
 docker-compose exec php bash
 
-// new articles
+// write new articles
 php artisan parse 
 
 // clear db and write new articles
