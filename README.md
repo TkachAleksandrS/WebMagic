@@ -1,11 +1,15 @@
 ## Install:
 
 ```
+$ git clone https://github.com/AleksandrTkach/WebMagic.git webmagic
 $ cd ./webmagic/docker
 $ docker-compose up -d
 $ docker-compose exec php bash
-$ composer install
+$ composer update
 $ cp .env.example .env
+
+// set now .env variable and create db
+
 $ php artisan key:generate
 $ php artisan migrate
 $ exit
@@ -31,11 +35,13 @@ PARSE_MONTHS=4
 
 #### Command for updating the articles:
 ```
+docker-compose exec php bash
+
 // new articles
-php artisan parser 
+php artisan parse 
 
 // clear db and write new articles
-php artisan parser refresh 
+php artisan parse refresh 
 ```
 
 #### Docker containers:
