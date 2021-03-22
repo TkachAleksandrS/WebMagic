@@ -5,7 +5,7 @@ $ git clone https://github.com/AleksandrTkach/WebMagic.git webmagic
 $ cd ./webmagic/docker
 $ docker-compose up -d
 $ docker-compose exec php bash
-$ composer update
+$ composer install
 $ cp .env.example .env
 
 // set now .env variable and create db

@@ -17,4 +17,13 @@ class Tag extends Model
     {
         return $this->belongsToMany(Article::class);
     }
+
+    /**
+     * @param $value
+     * @return string
+     */
+    public function getNameAttribute(string $value): string
+    {
+        return $this->attributes['name'] = ucfirst($value);
+    }
 }

@@ -5,4 +5,3 @@
 /.idea/*
 !/docker/.env
 .env
-.composer.lock
