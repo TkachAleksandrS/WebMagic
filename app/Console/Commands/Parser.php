@@ -87,12 +87,12 @@ class Parser extends Command
     {
         DB::transaction(function() {
 
+            $this->parseLog->info('Parsing started [' . $this->argument('type') . ']');
+
             if ($this->argument('type') === 'refresh')
                 $this->clearDB();
 
             $articles = $this->getArticles();
-
-            $this->parseLog->info('Parsing started [' . $this->argument('type') . ']');
 
             $this->storeArticles($articles);
         });
@@ -104,6 +104,7 @@ class Parser extends Command
      * @param int $page
      * @param array $foundArticles
      * @return array
+     * @throws \Exception
      */
     private function getArticles(int $page = 1, array &$foundArticles = []): array
     {

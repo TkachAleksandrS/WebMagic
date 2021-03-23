@@ -12,12 +12,16 @@ class ArticleController extends Controller
         'order_by' => ['column' => 'author', 'way' => 'asc']
     ];
 
-    public function index(ArticleRequest $request) {
-
+    /**
+     * @param ArticleRequest $request
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     */
+    public function index(ArticleRequest $request)
+    {
         $options = [
             'order_by' => [
-                'column' => $request->get('column') ?? $this->defaultOptions['order_by']['column'],
-                'way' => $request->get('way') ?? $this->defaultOptions['order_by']['way']
+                'column' => $request->get('column', $this->defaultOptions['order_by']['column']),
+                'way' => $request->get('way', $this->defaultOptions['order_by']['way'])
             ]
         ];
 
@@ -26,7 +30,11 @@ class ArticleController extends Controller
         ]);
     }
 
-    public function parse() {
+    /**
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     */
+    public function parse()
+    {
 
         Artisan::call('parse refresh');
 

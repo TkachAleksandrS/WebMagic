@@ -22,7 +22,7 @@ class Article extends Model
     ];
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     * @return BelongsToMany
      */
     public function tags(): BelongsToMany
     {

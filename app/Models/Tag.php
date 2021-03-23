@@ -11,7 +11,7 @@ class Tag extends Model
     use HasFactory;
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     * @return BelongsToMany
      */
     public function articles(): BelongsToMany
     {
