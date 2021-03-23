@@ -4,6 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\ArticleRequest;
 use App\Models\Article;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Artisan;
 
 class ArticleController extends Controller
@@ -14,7 +18,7 @@ class ArticleController extends Controller
 
     /**
      * @param ArticleRequest $request
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     * @return Application|Factory|View
      */
     public function index(ArticleRequest $request)
     {
@@ -31,15 +35,12 @@ class ArticleController extends Controller
     }
 
     /**
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     * @return RedirectResponse
      */
-    public function parse()
+    public function parse(): RedirectResponse
     {
-
         Artisan::call('parse refresh');
 
-        return view('home', [
-            'articles' => Article::getAll($this->defaultOptions)
-        ]);
+        return back();
     }
 }
