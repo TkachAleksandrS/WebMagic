@@ -4,4 +4,6 @@
 /vendor
 /.idea/*
 !/docker/.env
+/docker/mysql
+/docker/logs
 .env
