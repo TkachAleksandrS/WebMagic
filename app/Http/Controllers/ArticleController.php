@@ -39,7 +39,7 @@ class ArticleController extends Controller
      */
     public function parse(): RedirectResponse
     {
-        Artisan::call('parse refresh');
+        Artisan::call('parse refresh 0');
 
         return back();
     }
