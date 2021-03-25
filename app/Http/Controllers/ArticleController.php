@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ArticleRequest;
-use App\Models\Article;
+use App\Repositories\Interfaces\ArticleRepositoryInterface;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
@@ -15,6 +15,13 @@ class ArticleController extends Controller
     private $defaultOptions = [
         'order_by' => ['column' => 'author', 'way' => 'asc']
     ];
+
+    private $articleRepository;
+
+    public function __construct(ArticleRepositoryInterface $articleRepository)
+    {
+        $this->articleRepository = $articleRepository;
+    }
 
     /**
      * @param ArticleRequest $request
@@ -29,9 +36,9 @@ class ArticleController extends Controller
             ]
         ];
 
-        return view('home', [
-            'articles' => Article::getAll($options)
-        ]);
+        $articles = $this->articleRepository->all($options);
+
+        return view('home', compact('articles'));
     }
 
     /**

@@ -29,19 +29,19 @@ class Article extends Model
         return $this->belongsToMany(Tag::class);
     }
 
-    /**
-     * @param array $options
-     * @return array
-     */
-    public static function getAll($options = []): array
-    {
-        $query = Article::select('id', 'title', 'link', 'author', 'published_at')->with('tags:id,name');
-
-        if (isset($options['order_by']['column']) && isset($options['order_by']['way']))
-            $query->orderBy($options['order_by']['column'], $options['order_by']['way']);
-
-        return $query->get()->toArray();
-    }
+//    /**
+//     * @param array $options
+//     * @return array
+//     */
+//    public static function getAll($options = []): array
+//    {
+//        $query = Article::select('id', 'title', 'link', 'author', 'published_at')->with('tags:id,name');
+//
+//        if (isset($options['order_by']['column']) && isset($options['order_by']['way']))
+//            $query->orderBy($options['order_by']['column'], $options['order_by']['way']);
+//
+//        return $query->get()->toArray();
+//    }
 
     /**
      * @param $data
