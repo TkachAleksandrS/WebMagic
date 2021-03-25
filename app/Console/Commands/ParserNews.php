@@ -1,14 +1,10 @@
 <?php
 
-
 namespace App\Console\Commands;
 
-
-use App\Models\Article;
-use App\Models\Tag;
+use App\Helpers\Sort\SortFacade;
 use App\Repositories\Interfaces\ArticleRepositoryInterface;
 use App\Repositories\Interfaces\TagRepositoryInterface;
-use App\Traits\Sort;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -16,8 +12,6 @@ use Symfony\Component\DomCrawler\Crawler;
 
 class ParserNews
 {
-    use Sort;
-
     /**
      * Parsing link.
      *
@@ -123,12 +117,9 @@ class ParserNews
         // Get all data about article.
         $data = $this->getData($blogItems);
 
-        if ($page === 1)
-            // Sort array because general news had random date
-            $foundArticles = $this->sortArrByKey($data['res'], 'published_at');
-        else
-            // Supplement articles
-            $foundArticles = array_merge($foundArticles, $data['res']);
+        $foundArticles = $page === 1
+            ? SortFacade::arrByKey($data['res'], 'published_at') // Sort array because general news had random date
+            : $foundArticles = array_merge($foundArticles, $data['res']); // Supplement articles
 
         // Get next page with list articles
         if ($data['isGetMore'])

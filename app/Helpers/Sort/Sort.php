@@ -1,8 +1,9 @@
 <?php
 
-namespace App\Traits;
+namespace App\Helpers\Sort;
 
-trait Sort {
+class Sort
+{
     /**
      * Sorting an array by key.
      *
@@ -10,7 +11,7 @@ trait Sort {
      * @param string $key
      * @return array
      */
-    private function sortArrByKey(array $res, string $key): array
+    public function arrByKey(array $res, string $key): array
     {
         usort($res, function ($a, $b) use ($key) {
             if ($a[$key] == $b[$key]) {

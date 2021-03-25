@@ -11,23 +11,8 @@ use Illuminate\Support\ServiceProvider;
 class RepositoryServiceProvider extends ServiceProvider
 {
     /**
-     * Register services.
-     *
-     * @return void
+     * @var string[]
      */
-//    public function register()
-//    {
-//        $this->app->bind(
-//            ArticleRepositoryInterface::class,
-//            ArticleRepository::class
-//        );
-//
-//        $this->app->bind(
-//            TagRepositoryInterface::class,
-//            TagRepository::class
-//        );
-//    }
-
     public $bindings = [
         ArticleRepositoryInterface::class => ArticleRepository::class,
         TagRepositoryInterface::class => TagRepository::class,
