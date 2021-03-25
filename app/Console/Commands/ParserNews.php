@@ -6,6 +6,8 @@ namespace App\Console\Commands;
 
 use App\Models\Article;
 use App\Models\Tag;
+use App\Repositories\Interfaces\ArticleRepositoryInterface;
+use App\Repositories\Interfaces\TagRepositoryInterface;
 use App\Traits\Sort;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
@@ -50,13 +52,23 @@ class ParserNews
     private $parseLog;
 
     /**
+     * @var ArticleRepositoryInterface
+     */
+    private $articleRepository;
+
+    /**
+     * @var TagRepositoryInterface
+     */
+    private $tagRepository;
+
+    /**
      * Is print message in dump
      *
      * @var $isDebug
      */
     private $isDebug;
 
-    public function __construct()
+    public function __construct(ArticleRepositoryInterface $articleRepository, TagRepositoryInterface $tagRepository)
     {
         $carbon = Carbon::now();
         $this->currentTime = $carbon->toDateTimeString();
@@ -67,6 +79,8 @@ class ParserNews
 
         $this->parseLog = Log::channel('parser');
 
+        $this->articleRepository = $articleRepository;
+        $this->tagRepository = $tagRepository;
     }
 
     public function index(array $arguments): void
@@ -190,7 +204,7 @@ class ParserNews
                     throw $e;
                 }
 
-                $isArticleDuplicate = Article::whereLink($link)->exists();
+                $isArticleDuplicate = $this->articleRepository->exists(compact('link'));
 
                 if ($isArticleDuplicate) {
                     $this->parseLogInfo('Article is set in DB: ' . $link);
@@ -248,7 +262,7 @@ class ParserNews
      */
     private function storeArticles(array $articles): void
     {
-        $issetTags = Tag::pluck('id', 'name')->toArray();
+        $issetTags = $this->tagRepository->getIsSet('id', 'name');
 
         foreach ($articles as $index => $article) {
             $tagIdsForAttach = [];
@@ -259,7 +273,7 @@ class ParserNews
                 if (isset($issetTags[$tagName])) {
                     $tagIdsForAttach[] = $issetTags[$tagName];
                 } else {
-                    $tagId = Tag::insertGetId(['name' => $tagName]);
+                    $tagId = $this->tagRepository->store(['name' => $tagName]);
                     $tagIdsForAttach[] = $tagId;
                     $issetTags += [$tagName => $tagId];
                 }
@@ -272,7 +286,7 @@ class ParserNews
                 'published_at' => Carbon::parse($article['published_at'])->toDateString()
             ];
 
-            Article::store($data, $tagIdsForAttach);
+            $this->articleRepository->store($data, $tagIdsForAttach);
 
             $this->parseLogInfo('Stored article: ' . $article['link'] . '. Tags: ['.implode(',', $article['tags']).'].');
         }
@@ -305,8 +319,8 @@ class ParserNews
         DB::statement("SET foreign_key_checks=0");
 
         DB::table('article_tag')->truncate();
-        Article::truncate();
-        Tag::truncate();
+        $this->articleRepository->truncate();
+        $this->tagRepository->truncate();
 
         DB::statement("SET foreign_key_checks=1");
     }

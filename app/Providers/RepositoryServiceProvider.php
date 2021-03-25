@@ -4,6 +4,8 @@ namespace App\Providers;
 
 use App\Repositories\ArticleRepository;
 use App\Repositories\Interfaces\ArticleRepositoryInterface;
+use App\Repositories\Interfaces\TagRepositoryInterface;
+use App\Repositories\TagRepository;
 use Illuminate\Support\ServiceProvider;
 
 class RepositoryServiceProvider extends ServiceProvider
@@ -19,15 +21,10 @@ class RepositoryServiceProvider extends ServiceProvider
             ArticleRepositoryInterface::class,
             ArticleRepository::class
         );
-    }
 
-    /**
-     * Bootstrap services.
-     *
-     * @return void
-     */
-    public function boot()
-    {
-        //
+        $this->app->bind(
+            TagRepositoryInterface::class,
+            TagRepository::class
+        );
     }
 }
