@@ -15,16 +15,21 @@ class RepositoryServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function register()
-    {
-        $this->app->bind(
-            ArticleRepositoryInterface::class,
-            ArticleRepository::class
-        );
+//    public function register()
+//    {
+//        $this->app->bind(
+//            ArticleRepositoryInterface::class,
+//            ArticleRepository::class
+//        );
+//
+//        $this->app->bind(
+//            TagRepositoryInterface::class,
+//            TagRepository::class
+//        );
+//    }
 
-        $this->app->bind(
-            TagRepositoryInterface::class,
-            TagRepository::class
-        );
-    }
+    public $bindings = [
+        ArticleRepositoryInterface::class => ArticleRepository::class,
+        TagRepositoryInterface::class => TagRepository::class,
+    ];
 }
