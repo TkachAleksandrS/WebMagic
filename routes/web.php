@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\ArticleController;
+use App\Http\Controllers\SpaController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,5 +14,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', [ArticleController::class, 'index']);
-Route::get('/parse', [ArticleController::class, 'parse']);
+Route::get('/{any?}', SpaController::class);
+
+//Route::get('/', [ArticleController::class, 'index']);
+//Route::get('/parse', [ArticleController::class, 'parse']);
