@@ -41,9 +41,6 @@ export default {
     created() {
         this.getData('articles');
     },
-    beforeDestroy() {
-        this.$router.push({query: {}});
-    },
     methods: {
         async getData(action, page = 1, selected = {column: 'author', way: 'asc'}) {
             this.isLoading = true;
