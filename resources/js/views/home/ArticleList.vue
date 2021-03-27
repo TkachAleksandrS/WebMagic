@@ -72,8 +72,8 @@ export default {
             return this.data.data ?? [];
         },
         paginate() {
-            const {data, ...pagination} = this.data;
-            return pagination ?? [];
+            const {data, ...paginate} = this.data;
+            return paginate ?? {};
         },
     },
     methods: {
