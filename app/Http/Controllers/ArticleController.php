@@ -4,16 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\ArticleRequest;
 use App\Repositories\Interfaces\ArticleRepositoryInterface;
-use Illuminate\Contracts\Foundation\Application;
-use Illuminate\Contracts\View\Factory;
-use Illuminate\Contracts\View\View;
-use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Artisan;
 
 class ArticleController extends Controller
 {
     private $defaultOptions = [
-        'order_by' => ['column' => 'author', 'way' => 'asc']
+        'order_by' => ['column' => 'author', 'way' => 'asc'],
     ];
 
     private $articleRepository;
@@ -25,29 +22,31 @@ class ArticleController extends Controller
 
     /**
      * @param ArticleRequest $request
-     * @return Application|Factory|View
+     * @return JsonResponse
      */
-    public function index(ArticleRequest $request)
+    public function index(ArticleRequest $request): JsonResponse
     {
         $options = [
             'order_by' => [
                 'column' => $request->get('column', $this->defaultOptions['order_by']['column']),
-                'way' => $request->get('way', $this->defaultOptions['order_by']['way'])
-            ]
+                'way' => $request->get('way', $this->defaultOptions['order_by']['way']),
+            ],
         ];
 
         $articles = $this->articleRepository->all($options);
 
-        return view('home', compact('articles'));
+        return response()->json($articles);
     }
 
     /**
-     * @return RedirectResponse
+     * @return JsonResponse
      */
-    public function parse(): RedirectResponse
+    public function parse(): JsonResponse
     {
         Artisan::call('parse refresh 0');
 
-        return back();
+        $articles = $this->articleRepository->all($this->defaultOptions);
+
+        return response()->json($articles);
     }
 }

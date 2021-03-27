@@ -35,7 +35,7 @@ class ArticleRepository implements ArticleRepositoryInterface
         if (isset($options['order_by']['column']) && isset($options['order_by']['way']))
             $query->orderBy($options['order_by']['column'], $options['order_by']['way']);
 
-        return $query->get()->toArray();
+        return $query->paginate()->toArray();
     }
 
     /**

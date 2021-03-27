@@ -6,6 +6,7 @@ $ cd ./webmagic/docker
 $ docker-compose up -d
 $ docker-compose exec php bash
 $ composer install
+$ npm install
 $ cp .env.example .env
 
 // set now .env variable and create db

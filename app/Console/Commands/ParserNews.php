@@ -68,7 +68,7 @@ class ParserNews
         $this->currentTime = $carbon->toDateTimeString();
         $this->timestampDateExpired = $carbon->subMonths(env('PARSE_MONTHS', 4))->timestamp;
 
-        $this->domain = 'https://laravel-news.com';
+        $this->domain = env('MIX_PARSE_DOMAIN', 'https://laravel-news.com');
         $this->link = $this->domain . '/blog';
 
         $this->parseLog = Log::channel('parser');
