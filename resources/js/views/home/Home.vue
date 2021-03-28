@@ -1,12 +1,13 @@
 <template>
     <div>
-        <div class="col">
-            <sort :disabled-btn="isLoading || !articles.length"
-                  @change="payload => getData('articles', ...payload)"
-            />
-        </div>
+        <sort :disabled-btn="isLoading || !articles.length"
+              @change="payload => getData('articles', ...payload)"
+        />
 
-        <article-list :data="data" :is-loading="isLoading" @parse="() => getData('parse')"/>
+        <article-list :data="data"
+                      :is-loading="isLoading"
+                      @parse="() => getData('parse')"
+        />
 
         <pagination v-if="!isLoading"
                     :data="paginate"
@@ -15,7 +16,6 @@
                     :align="'center'"
                     @pagination-change-page="page => getData('articles', page)"
         />
-
     </div>
 </template>
 

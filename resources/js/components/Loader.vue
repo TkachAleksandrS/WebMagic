@@ -1,7 +1,7 @@
 <template>
     <div class="d-flex justify-content-center align-items-center">
         <div v-if="isShow" class="spinner-border" role="status">
-            <span class="sr-only">Loading...</span>
+            <span class="sr-only"> Loading... </span>
         </div>
     </div>
 </template>

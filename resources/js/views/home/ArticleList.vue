@@ -1,9 +1,9 @@
 <template>
-    <table class="table">
+    <table class="table table-bordered shadow-sm">
         <thead class="thead-dark">
         <tr>
-            <th scope="col"> #</th>
-            <th scope="col"> Publication date</th>
+            <th scope="col" class="text-center"> # </th>
+            <th scope="col"> Publication </th>
             <th scope="col"> Title</th>
             <th scope="col"> Author</th>
             <th scope="col"> Tags</th>
@@ -12,33 +12,33 @@
         <tbody>
         <template v-if="articles.length">
             <tr v-for="(article, index) in articles" :key="article.id">
-                <th scope="row">{{ getPosition(index) }}</th>
-                <td>{{ article['published_at'] }}</td>
-                <td>
+                <th scope="row" class="align-middle text-center">
+                    {{ getPosition(index) }}
+                </th>
+                <td class="align-middle text-center">{{ article['published_at'] }}</td>
+                <td class="align-middle">
                     <a :href="parseDomain + article['link']" target="_blank">
                         {{ article['title'] }}
                     </a>
                 </td>
-                <td>{{ article['author'] }}</td>
-                <td>
+                <td class="align-middle">{{ article['author'] }}</td>
+                <td class="align-middle">
                     <template v-for="(tag, index) in article['tags']">
                         <span :key="tag.id">{{ index ? ', ' + tag['name'] : tag['name'] }}</span>
                     </template>
                 </td>
             </tr>
         </template>
-        <tr v-if="!isLoading && articles.length === 0">
+        <tr v-if="articles.length === 0">
             <th colspan="6" class="text-center">
-                <div> Data base empty </div>
-                <button class="btn badge badge-success" type="button"
-                        @click="() => $emit('parse')" :disabled="isLoading"
-                >
+                <template v-if="!isLoading">
+                    <div> Data base empty </div>
+                    <button class="btn badge badge-success" type="button"
+                            @click="() => $emit('parse')" :disabled="isLoading"
+                    >
                         load articles
-                </button>
-            </th>
-        </tr>
-        <tr>
-            <th colspan="6" class="text-center">
+                    </button>
+                </template>
                 <loader :isShow="isLoading"/>
             </th>
         </tr>
@@ -47,13 +47,9 @@
 </template>
 
 <script>
-import Loader from '@/components/Loader';
 
 export default {
     name: "ArticleList",
-    components: {
-        Loader,
-    },
     props: {
         data: {
             type: Object,
